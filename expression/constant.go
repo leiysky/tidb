@@ -86,6 +86,11 @@ func (c *Constant) Clone() Expression {
 
 // GetType implements Expression interface.
 func (c *Constant) GetType() *types.FieldType {
+	if c.Value.IsNull() {
+		c.RetType.Flag &= ^mysql.NotNullFlag
+	} else {
+		c.RetType.Flag |= mysql.NotNullFlag
+	}
 	return c.RetType
 }
 
